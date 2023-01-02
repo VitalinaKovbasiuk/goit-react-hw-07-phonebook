@@ -3,29 +3,29 @@ import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Form, Input, FormButton, Label } from './ContactForm.styled';
 import { useState } from 'react';
-import { addContact } from "redux/contacts/contact-slice";
-import { useDispatch, useSelector } from "react-redux";
-import { getContacts } from "redux/contacts/contact-slice";
+import { addContact } from 'redux/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
 
 export default function ContactForm() {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
 
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.currentTarget;
 
     switch (name) {
-      case "name":
+      case 'name':
         setName(value);
         break;
 
-      case "number":
+      case 'number':
         setNumber(value);
         break;
 
@@ -34,7 +34,7 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
     const contact = {
       name,
@@ -43,7 +43,7 @@ export default function ContactForm() {
     };
 
     const checkContact = contacts.some(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase()
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
     checkContact
@@ -54,13 +54,13 @@ export default function ContactForm() {
   };
 
   const resetSubmit = () => {
-    setName("");
-    setNumber("");
+    setName('');
+    setNumber('');
   };
 
   return (
     <Form action="" onSubmit={handleSubmit}>
-      <Label htmlFor=''>
+      <Label htmlFor="">
         Name:
         <Input
           id={nameInputId}
@@ -74,7 +74,7 @@ export default function ContactForm() {
           required
         />
       </Label>
-      <Label htmlFor=''>
+      <Label htmlFor="">
         Number:
         <Input
           id={numberInputId}
